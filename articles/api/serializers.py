@@ -4,7 +4,6 @@ from rest_framework.serializers import (
     StringRelatedField,
     HyperlinkedIdentityField,
     ModelSerializer,
-    HyperlinkedModelSerializer,
     ValidationError
 )
 
@@ -12,9 +11,8 @@ from ..models import Article
 
 
 class ArticleSerializer(ModelSerializer):
-# class ArticleSerializer(HyperlinkedModelSerializer):
-
     author = StringRelatedField()
+    # author_url = HyperlinkedIdentityField()
     url = HyperlinkedIdentityField(
         view_name='articles-api:retrieve_article',
         lookup_field='slug'

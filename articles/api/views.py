@@ -12,6 +12,10 @@ from ..models import Article
 from .permissions import IsAuthor
 
 class ArticleCreateView(CreateAPIView):
+    """
+    Create an article.
+    """
+    permission_classes = [IsAuthenticated,]
     serializer_class = ArticleCreateSerializer
     queryset = Article.objects.all()
 
@@ -20,11 +24,18 @@ class ArticleCreateView(CreateAPIView):
 
 
 class ArticleListView(ListAPIView):
+    """
+    List all articles.
+    """
+    permission_classes = [IsAuthenticated,]
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
 
 
 class ArticleUpdateView(UpdateAPIView):
+    """
+    Update an article.
+    """
     permission_classes = [IsAuthenticated, IsAuthor, ]
     serializer_class = ArticleCreateSerializer
     queryset = Article.objects.all()
@@ -32,12 +43,19 @@ class ArticleUpdateView(UpdateAPIView):
 
 
 class ArticleRetrieveView(RetrieveAPIView):
+    """
+    Retrieve an article.
+    """
+    permission_classes = [IsAuthenticated,]
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
     lookup_field = 'slug'
 
 
 class ArticleDeleteView(DestroyAPIView):
+    """
+    Delete an article.
+    """
     permission_classes = [IsAuthenticated, IsAuthor, ]
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()

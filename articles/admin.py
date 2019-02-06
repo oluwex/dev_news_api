@@ -5,7 +5,7 @@ from .models import Article
 # Register your models here.
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'timestamp']
+    list_display = ['title', 'timestamp']
 
 
 admin.site.register(Article, ArticleAdmin)

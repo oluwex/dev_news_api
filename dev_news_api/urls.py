@@ -18,9 +18,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 
+from rest_framework.documentation import include_docs_urls
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-
+    
+    path('api/docs/', include_docs_urls(title='Dev Articles API', public=False)),
     path('api/accounts/', include('accounts.api.urls', namespace='accounts-api')),
     path('api/articles/', include('articles.api.urls', namespace='articles-api')),
 ]
