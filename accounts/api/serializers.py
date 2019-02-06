@@ -45,6 +45,7 @@ class UserCreateSerializer(ModelSerializer):
             'password',
             'bio'
         ]
+        extra_kwargs = {'email': {'required': True}}
 
     def validate_email(self, value):
         data = self.get_initial()
