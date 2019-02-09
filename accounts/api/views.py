@@ -20,7 +20,7 @@ User = get_user_model()
 
 class UserCreateAPIView(CreateAPIView):
     """
-    Register new user.
+    Register as a new user.
     """
     serializer_class = UserCreateSerializer
     queryset = User.objects.all()

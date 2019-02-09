@@ -63,7 +63,7 @@ class UserCreateSerializer(ModelSerializer):
         new_user.set_password(password)
         new_user.save()
         Profile.objects.create(user=new_user, **profile)
-        return validated_data
+        return new_user
 
 
 class UserLoginSerializer(ModelSerializer):
