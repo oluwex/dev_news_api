@@ -2,6 +2,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.test import APITestCase
+from rest_framework.authtoken.models import Token
 
 from .models import Profile
 
@@ -77,3 +78,15 @@ class AccountTests(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 3)
+
+    def test_login(self):
+        """
+        Tests login endpoint
+        """
+        user_token = Token.objects.get(user__username='jeffa@mail.com')
+        url = reverse('accounts-api:login')
+        data = {'email':'jeffa@mail.com', 'password':'Abcabc123'}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get('token'), user_token.key)
+
