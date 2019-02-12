@@ -109,3 +109,29 @@ class ArticleTest(APITestCase):
         self.assertTrue(status.is_client_error(response.status_code))
         self.assertEqual(response.data.get('detail'), 'You are not authorized to modify this article.')
 
+    def test_article_delete_by_unauthorized_user(self):
+        url = reverse('articles-api:delete_article', kwargs={'slug': self.article1.slug})
+        response = self.client.delete(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_article_delete_by_author(self):
+        login_url = reverse('accounts-api:login')
+        login_data = {'email': "jeffa@mail.com", 'password': 'Abcabc123'}
+        login_response = self.client.post(login_url, login_data, format='json')
+        token = login_response.data.get('token', "")
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
+        url = reverse('articles-api:delete_article', kwargs={'slug': self.article1.slug})
+        response = self.client.delete(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_article_delete_by_non_author(self):
+        login_url = reverse('accounts-api:login')
+        login_data = {'email': "jeffa@mail.com", 'password': 'Abcabc123'}
+        login_response = self.client.post(login_url, login_data, format='json')
+        token = login_response.data.get('token', "")
+        self.client.credentials(HTTP_AUTHORIZATION='Bearer ' + token)
+        url = reverse('articles-api:delete_article', kwargs={'slug': self.article2.slug})
+        response = self.client.delete(url, format='json')
+        self.assertTrue(status.is_client_error(response.status_code))
+        self.assertEqual(response.data.get('detail'), 'You are not authorized to modify this article.')
+
